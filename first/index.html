@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staking DApp</title>
+</head>
+<body>
+    <h1>Staking DApp</h1>
+    <div>
+        <label>Stake Amount (ETH):</label>
+        <input type="text" id="stakeAmount" />
+        <button onclick="stake()">Stake</button>
+    </div>
+    <div>
+        <label>Unstake Amount (ETH):</label>
+        <input type="text" id="unstakeAmount" />
+        <button onclick="unstake()">Unstake</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
