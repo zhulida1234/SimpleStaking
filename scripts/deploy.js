@@ -1,10 +1,21 @@
 const hre = require("hardhat");
 const fs = require('fs');
 const path = require('path');
+const config = require('../configs/config.json');
+const { ethers } = hre;
+
+
 
 async function main() {
+
+  console.log("hre.network.name",hre.network.name)
+  const c = config[hre.network.name];
+
+  console.log("startTime",c.startTime,"endTime",c.endTime,"rewardPerSecond",c.rewardPerSecond,"initiaOwner",c.initialOwner)
+
   const Stake = await hre.ethers.getContractFactory("Stake");
-  const stake = await Stake.deploy();
+  const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+  const stake = await Stake.deploy(c.initialOwner,ZERO_ADDRESS,ethers.parseEther(c.rewardPerSecond),c.startTime,c.endTime);
 
   
   await stake.waitForDeployment();

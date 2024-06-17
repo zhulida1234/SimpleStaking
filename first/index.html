@@ -8,6 +8,9 @@
 <body>
     <h1>Staking DApp</h1>
     <div>
+        <p>Current Account: <span id="currentAccount"></span></p>
+      </div>
+    <div>
         <label>Stake Amount (ETH):</label>
         <input type="text" id="stakeAmount" />
         <button onclick="stake()">Stake</button>
@@ -16,6 +19,32 @@
         <label>Unstake Amount (ETH):</label>
         <input type="text" id="unstakeAmount" />
         <button onclick="unstake()">Unstake</button>
+    </div>
+    <div>
+        <label>Fund Amount (ERC20):</label>
+        <input type="text" id="fundAmount" />
+        <button onclick="fund()">Fund</button>
+    </div>
+    <div>
+        <label>Pool Allocation Point:</label>
+        <input type="text" id="allocPoint" />
+        <label>With Update:</label>
+        <input type="checkbox" id="withUpdate" />
+        <button onclick="addPool()">Add Pool</button>
+    </div>
+    <div>
+        <label>Pool ID:</label>
+        <input type="text" id="poolId" />
+        <label>New Allocation Point:</label>
+        <input type="text" id="newAllocPoint" />
+        <label>With Update:</label>
+        <input type="checkbox" id="withUpdateSet" />
+        <button onclick="setAlloc()">Set Allocation</button>
+    </div>
+    <div>
+        <label>Check Deposited (Pool ID):</label>
+        <input type="text" id="checkPoolId" />
+        <button onclick="checkDeposited()">Check Deposited</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
     <script src="app.js"></script>

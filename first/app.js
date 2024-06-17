@@ -10,6 +10,15 @@ const App = {
       // 获取用户账户
       const accounts = await web3.eth.getAccounts();
       this.account = accounts[0];
+      this.updateAccountDisplay();
+
+       // 监听账户更改
+       window.ethereum.on('accountsChanged', (accounts) => {
+        this.account = accounts[0];
+        this.updateAccountDisplay();
+        console.log("Account changed to:", this.account);
+      });
+
 
       // 获取网络ID
       const networkId = await web3.eth.net.getId();
@@ -42,13 +51,45 @@ const App = {
 
   stake: async function () {
     const amount = document.getElementById("stakeAmount").value;
+    const poolId = document.getElementById("poolId").value;
     await this.staking.methods.stake().send({ from: this.account, value: Web3.utils.toWei(amount, "ether") });
   },
 
   unstake: async function () {
     const amount = document.getElementById("unstakeAmount").value;
+    const poolId = document.getElementById("poolId").value;
     await this.staking.methods.unstake(Web3.utils.toWei(amount, "ether")).send({ from: this.account });
+  },
+
+  fund: async function () {
+    const amount = document.getElementById("fundAmount").value;
+    const weiAmount = web3.utils.toWei(amount, 'ether');
+    await contract.methods.fund(weiAmount).send({ from: currentAccount });
+  },
+
+  addPool: async function () {
+    const allocPoint = document.getElementById("allocPoint").value;
+    const withUpdate = document.getElementById("withUpdate").checked;
+    await contract.methods.add(allocPoint, withUpdate).send({ from: currentAccount });
+  },
+
+  setAlloc: async function () {
+    const poolId = document.getElementById("poolId").value;
+    const newAllocPoint = document.getElementById("newAllocPoint").value;
+    const withUpdate = document.getElementById("withUpdateSet").checked;
+    await contract.methods.set(poolId, newAllocPoint, withUpdate).send({ from: currentAccount });
+  },
+
+  checkDeposited: async function () {
+    const poolId = document.getElementById("checkPoolId").value;
+    const amount = await contract.methods.deposited(currentAccount, poolId).call();
+    alert(`Deposited amount: ${amount}`);
+  },
+
+  updateAccountDisplay: function () {
+    document.getElementById("currentAccount").innerText = this.account;
   }
+
 };
 
 window.App = App;
@@ -58,6 +99,7 @@ window.addEventListener("load", async function () {
     // 使用 Metamask 的 provider
     App.web3 = new Web3(window.ethereum);
     await window.ethereum.enable();
+
   } else if (window.web3) {
     // 使用 Mist 或者 Geth 的 provider
     App.web3 = new Web3(window.web3.currentProvider);
